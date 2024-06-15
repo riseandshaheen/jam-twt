@@ -1,4 +1,5 @@
 import { getFrameMetadata } from "@coinbase/onchainkit/frame";
+import { getFrameMessage } from "@coinbase/onchainkit/frame";
 
 export interface PrepareDonateFrameMetadataOpts {
     endpointBaseUrl: string;
@@ -41,4 +42,21 @@ export const prepareDonateFrameMetadata = <T>({
             ...frameMetadata,
         },
     } as T;
+};
+
+// ===============
+
+export interface PrepareFrameMessageOpts {
+    req: any;
+    apiKey: string;
+}
+
+export const prepareFrameMessage = async <T>({
+    req,
+    apiKey,
+}: PrepareFrameMessageOpts) => {
+    const body = await req.json();
+    return getFrameMessage(body, {
+        neynarApiKey: apiKey,
+    }) as T;
 };
