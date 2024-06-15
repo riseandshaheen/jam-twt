@@ -1,33 +1,19 @@
-// import {
-//     FrameRequest,
-//     getFrameMessage,
-//     getFrameHtmlResponse,
-// } from "@coinbase/onchainkit/frame";
+import { prepareFrameHTMLResponse, prepareFrameMessage } from "@jam/frames";
 import { NextRequest, NextResponse } from "next/server";
-//NEXT_PUBLIC_APP_URL
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
-    const body = { untrustedData: { transactionId: "teste" } };
-    // const body: FrameRequest = await req.json();
-    // const { isValid } = await getFrameMessage(body);
+    const request = await req.json();
+    const neynarApiKey = process.env.NEYNAR_ONCHAIN_KIT_API_KEY || "";
+    const { isValid } = (await prepareFrameMessage({
+        req: request,
+        apiKey: neynarApiKey,
+    })) as { isValid: boolean };
 
-    // if (!isValid) {
-    //     return new NextResponse("Message not valid", { status: 500 });
-    // }
-    // const appUrl = process.env.NEXT_PUBLIC_APP_URL;
-    // return new NextResponse(
-    //     getFrameHtmlResponse({
-    //         buttons: [
-    //             {
-    //                 label: `Tx: ${body?.untrustedData?.transactionId || "--"}`,
-    //             },
-    //         ],
-    //         image: {
-    //             src: `${appUrl}/park-4.png`,
-    //         },
-    //     }),
-    // );
-    return NextResponse.json(body);
+    if (!isValid) {
+        return new NextResponse("Message not valid", { status: 500 });
+    }
+
+    return new NextResponse(prepareFrameHTMLResponse(request));
 }
 
 export async function POST(req: NextRequest): Promise<Response> {

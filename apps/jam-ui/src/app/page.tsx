@@ -5,7 +5,7 @@ import { prepareDonateFrameMetadata } from "@jam/frames";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = prepareDonateFrameMetadata({
-    endpointBaseUrl: "https://jam-twt-jam-ui.vercel.app",
+    endpointBaseUrl: "jam-twt-jam-ui.vercel.app",
 });
 
 export default function HomePage() {

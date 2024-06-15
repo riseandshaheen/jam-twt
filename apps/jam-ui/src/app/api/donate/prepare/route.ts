@@ -1,11 +1,63 @@
-import { prepareFrameMessage } from "@jam/frames";
+import {
+    prepareFrameMessage,
+    prepareFrameTransactionResponse,
+} from "@jam/frames";
 import { NextRequest, NextResponse } from "next/server";
-//import { prepareFrameMessage } from "@jam/frames";
-import { encodeFunctionData, parseEther } from "viem";
-import { baseSepolia } from "viem/chains";
-// import BuyMeACoffeeABI from "../../_contracts/BuyMeACoffeeABI";
-// import { BUY_MY_COFFEE_CONTRACT_ADDR } from "../../config";
-// import type { FrameTransactionResponse } from "@coinbase/onchainkit/frame";
+import { encodeFunctionData, parseEther, stringToHex } from "viem";
+import { sepolia } from "viem/chains";
+
+const abi = [
+    {
+        inputs: [
+            {
+                internalType: "contract IInputBox",
+                name: "_inputBox",
+                type: "address",
+            },
+        ],
+        stateMutability: "nonpayable",
+        type: "constructor",
+    },
+    {
+        inputs: [],
+        name: "EtherTransferFailed",
+        type: "error",
+    },
+    {
+        inputs: [
+            {
+                internalType: "address",
+                name: "_dapp",
+                type: "address",
+            },
+            {
+                internalType: "bytes",
+                name: "_execLayerData",
+                type: "bytes",
+            },
+        ],
+        name: "depositEther",
+        outputs: [],
+        stateMutability: "payable",
+        type: "function",
+    },
+    {
+        inputs: [],
+        name: "getInputBox",
+        outputs: [
+            {
+                internalType: "contract IInputBox",
+                name: "",
+                type: "address",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+];
+
+const ETHPORTAL_CONTRACT_ADDR = "0xFfdbe43d4c855BF7e0f105c400A50857f53AB044";
+const HONEYPOT_CONTRACT_ADDR = "0x4cA2f6935200b9a782A78f408F640F17B29809d8";
 
 async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
     const request = await req.json();
@@ -19,28 +71,32 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
 
     console.log("isValid", isValid);
 
-    // if (!isValid) {
-    //     return new NextResponse("Message not valid", { status: 500 });
-    // }
+    if (!isValid) {
+        return new NextResponse("Message not valid", { status: 500 });
+    }
 
-    // const data = encodeFunctionData({
-    //     abi: BuyMeACoffeeABI,
-    //     functionName: "buyCoffee",
-    //     args: [parseEther("1"), "Coffee all day!"],
-    // });
+    // TODO how to get rid of it?
+    const execLayerData = stringToHex(
+        JSON.stringify({
+            msg: "anything",
+        }),
+    );
+    const data = encodeFunctionData({
+        abi,
+        functionName: "depositEther",
+        args: [HONEYPOT_CONTRACT_ADDR, execLayerData],
+    });
 
-    // const txData: FrameTransactionResponse = {
-    //     chainId: `eip155:${baseSepolia.id}`,
-    //     method: "eth_sendTransaction",
-    //     params: {
-    //         abi: [],
-    //         data,
-    //         to: BUY_MY_COFFEE_CONTRACT_ADDR,
-    //         value: parseEther("0.00004").toString(), // 0.00004 ETH
-    //     },
-    // };
-    // return NextResponse.json(txData);
-    return NextResponse.json({ message: "Success", isValid });
+    const chainId = `eip155:${sepolia.id}`;
+    const ethValue = parseEther("0.00004").toString(); // 0.00004 ETH
+    const txData = prepareFrameTransactionResponse({
+        chainId,
+        data,
+        toAddress: ETHPORTAL_CONTRACT_ADDR,
+        ethValue,
+    });
+
+    return NextResponse.json(txData);
 }
 
 export async function POST(req: NextRequest): Promise<Response> {
