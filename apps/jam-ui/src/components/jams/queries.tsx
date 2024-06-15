@@ -56,7 +56,7 @@ const fetchJams = async (filter: JamListFilter = "all") => {
 
 const fetchJamById = async (id: number) => {
     if (id === undefined || id === null)
-        return createError("Can fetch jam without an id");
+        return createError("Can't fetch Comet without an id");
 
     const url = `${rollupHost}/inspect/jams/${id}`;
 

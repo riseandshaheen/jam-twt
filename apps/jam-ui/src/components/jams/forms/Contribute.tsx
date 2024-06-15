@@ -93,7 +93,7 @@ export const ContributeJamForm: FC<Props> = ({ onSuccess, jamId }) => {
                     maxRows={5}
                     resize="vertical"
                     label="Entry"
-                    description="Contribute to the JAM content."
+                    description="Contribute to the Comet content."
                     withAsterisk
                     {...form.getInputProps("entry")}
                 />

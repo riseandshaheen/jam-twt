@@ -5,7 +5,7 @@ import PageTitle from "../components/layout/pageTitle";
 export default function HomePage() {
     return (
         <Stack>
-            <PageTitle title="Jam House" Icon={FaRegLightbulb} />
+            <PageTitle title="Comet House" Icon={FaRegLightbulb} />
         </Stack>
     );
 }

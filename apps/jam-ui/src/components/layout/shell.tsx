@@ -9,6 +9,8 @@ import {
     VisuallyHidden,
     useMantineColorScheme,
     useMantineTheme,
+    Text,
+    Anchor,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import Link from "next/link";
@@ -48,7 +50,7 @@ const Shell: FC<{ children: ReactNode }> = ({ children }) => {
                         size="sm"
                     />
                     <Group justify="space-between" style={{ flex: 1 }}>
-                        <Link href="/">JAM TWT LOGO</Link>
+                        <Link href="/" style={{ textDecoration: "none", color: "black" }} ><Text size="lg" fw={700}>☄️ COMET</Text></Link>
                         <Group ml={{ lg: "xl" }}>
                             <ActionMenu />
                             {/* <ConnectButton /> */}
@@ -96,7 +98,7 @@ const Shell: FC<{ children: ReactNode }> = ({ children }) => {
 
                     <NavLink
                         component={Link}
-                        label="Jams"
+                        label="Comets"
                         onClick={closeMobileMenu}
                         href="/jams"
                         leftSection={<FaPencilAlt />}

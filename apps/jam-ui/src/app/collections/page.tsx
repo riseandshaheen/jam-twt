@@ -5,7 +5,7 @@ import PageTitle from "../../components/layout/pageTitle";
 import { VouchersView } from "../../components/vouchers/VouchersView";
 
 export const metadata: Metadata = {
-    title: "Jam - My Collections",
+    title: "Comet - My Collections",
 };
 
 export default function JamsPage() {

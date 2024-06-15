@@ -136,7 +136,7 @@ export const JamDetails: FC<JamDetailsProps> = ({ jamId }) => {
     if (!data)
         return (
             <CenteredErrorMessage
-                message={`There is no JAM with id ${jamId}! Check the list of existing JAMS.`}
+                message={`There is no Comet with id ${jamId}! Check the list of existing Comets.`}
             />
         );
 
@@ -151,7 +151,7 @@ export const JamDetails: FC<JamDetailsProps> = ({ jamId }) => {
         <Stack>
             {isClosed && (
                 <Alert variant="light" color="blue" icon={<FaInfoCircle />}>
-                    This JAM is closed for contributions.
+                    This Comet is closed for contributions.
                 </Alert>
             )}
 
@@ -168,7 +168,7 @@ export const JamDetails: FC<JamDetailsProps> = ({ jamId }) => {
 
             {!isClosed && !isConnected && (
                 <Alert variant="light" color="blue" icon={<FaInfoCircle />}>
-                    Connect your wallet to contribute to this JAM!
+                    Connect your wallet to contribute to this Comet!
                 </Alert>
             )}
 

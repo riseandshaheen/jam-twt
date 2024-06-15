@@ -12,7 +12,7 @@ const JamPage: FC<PageProps> = ({ params }) => {
     console.log(params);
     return (
         <Stack>
-            <PageTitle title="JAM Details" Icon={FaPencilAlt} iconSize={28} />
+            <PageTitle title="Comet Details" Icon={FaPencilAlt} iconSize={28} />
             <JamDetails jamId={parseInt(params.id)} />
         </Stack>
     );

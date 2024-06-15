@@ -35,7 +35,7 @@ export default function JamsView() {
             autoClose: false,
             color: "green",
             title: "Success",
-            message: "JAM Created",
+            message: "Comet Created",
         });
         closeModal();
 
@@ -63,7 +63,7 @@ export default function JamsView() {
                 />
                 <Tooltip
                     disabled={isConnected}
-                    label="Connect to be able to create a JAM"
+                    label="Connect to be able to create a Comet"
                     withArrow
                     multiline
                     w={200}
@@ -73,7 +73,7 @@ export default function JamsView() {
                         onClick={openModal}
                         disabled={!isConnected}
                     >
-                        CREATE JAM
+                        CREATE COMET
                     </Button>
                 </Tooltip>
             </Group>
@@ -95,7 +95,7 @@ export default function JamsView() {
             ) : (
                 <Center>
                     <Text fw={600} size="xl">
-                        No JAMS found!
+                        No Comets found!
                     </Text>
                 </Center>
             )}
@@ -103,7 +103,7 @@ export default function JamsView() {
             <Modal
                 opened={showCreateForm}
                 onClose={closeModal}
-                title="Create a JAM"
+                title="Create a Comet"
             >
                 <CreateJamForm onSuccess={onSuccess} />
             </Modal>

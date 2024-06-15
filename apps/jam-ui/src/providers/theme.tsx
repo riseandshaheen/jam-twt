@@ -13,8 +13,12 @@ import {
 
 const themeOverride: MantineThemeOverride = createTheme({
     cursorType: "pointer",
-    fontFamily: "Open Sans, sans-serif",
-    primaryColor: "cyan",
+    //fontFamily: "Open Sans, sans-serif",
+    headings: { fontFamily: 'Greycliff CF, sans-serif' },
+    primaryColor: "haiti",
+    colors: {
+        'haiti':["#f1effa","#dedbef","#bab3e2","#9588d5","#7564c9","#614dc4","#5742c1","#4734ab","#3f2e99","#352787"]
+      },
     other: {
         iconSize: 21,
         chainIconSize: 24,
