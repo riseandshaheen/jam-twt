@@ -1,43 +1,64 @@
 import { getFrameMetadata } from "@coinbase/onchainkit/frame";
+import { FrameRequest, getFrameMessage } from "@coinbase/onchainkit/frame";
 
-export interface PrepareMetadataOpts {
-    url: string;
-    jamId: string;
+export interface PrepareDonationFrameMetadataOpts {
+    endpointBaseUrl: string;
+    imageUrl: string;
+    learnMoreUrl: string;
 }
 
-export const prepareFrameMetadata = <T>({ url }: PrepareMetadataOpts) => {
+export const prepareDonationFrameMetadata = <T>({
+    endpointBaseUrl,
+    imageUrl,
+    learnMoreUrl,
+}: PrepareDonationFrameMetadataOpts) => {
     const frameMetadata = getFrameMetadata({
         buttons: [
             {
-                label: "Story time",
+                action: "tx",
+                label: "Donate",
+                target: `${endpointBaseUrl}/api/donate/prepare`,
+                postUrl: `${endpointBaseUrl}/api/donate/txhandler`,
             },
             {
-                action: "tx",
-                label: "Send Base Sepolia",
-                target: `${url}/api/tx`,
-                postUrl: `${url}/api/tx-success`,
+                action: "link",
+                label: "Learn more",
+                target: learnMoreUrl,
             },
         ],
         image: {
-            src: `${url}/park-3.png`,
+            src: imageUrl,
             aspectRatio: "1:1",
         },
-        input: {
-            text: "Tell me a story",
-        },
-        postUrl: `${url}/api/frame`,
     });
 
     return {
-        title: "zizzamia.xyz",
-        description: "LFG",
+        title: "Comet",
+        description: "A text content co-creation platform",
         openGraph: {
-            title: "zizzamia.xyz",
-            description: "LFG",
-            images: [`${url}/park-1.png`],
+            title: "Comet",
+            description: "A text content co-creation platform",
+            image: imageUrl,
         },
         other: {
             ...frameMetadata,
         },
     } as T;
+};
+
+// =====================
+
+export interface PrepareFrameMessageOpts {
+    req: any;
+    neynarApiKey: string;
+    allowFramegear: boolean;
+}
+
+export const prepareFrameMessage = async <T>({
+    req,
+    neynarApiKey,
+    allowFramegear,
+}: PrepareFrameMessageOpts) => {
+    const body: FrameRequest = await req.json();
+    return getFrameMessage(body, { neynarApiKey, allowFramegear }) as T;
 };
