@@ -1,40 +1,41 @@
 import { getFrameMetadata } from "@coinbase/onchainkit/frame";
 
-export interface PrepareMetadataOpts {
-    url: string;
-    jamId: string;
+export interface PrepareDonateFrameMetadataOpts {
+    endpointBaseUrl: string;
 }
 
-export const prepareFrameMetadata = <T>({ url }: PrepareMetadataOpts) => {
+export const prepareDonateFrameMetadata = <T>({
+    endpointBaseUrl,
+}: PrepareDonateFrameMetadataOpts) => {
     const frameMetadata = getFrameMetadata({
         buttons: [
             {
-                label: "Story time",
+                action: "tx",
+                label: "Donate",
+                target: `${endpointBaseUrl}/api/donate/prepare`,
+                postUrl: `${endpointBaseUrl}/api/donate/handletx`,
             },
             {
-                action: "tx",
-                label: "Send Base Sepolia",
-                target: `${url}/api/tx`,
-                postUrl: `${url}/api/tx-success`,
+                action: "link",
+                label: "Learn more",
+                target: endpointBaseUrl,
             },
         ],
         image: {
-            src: `${url}/park-3.png`,
+            src: "https://pbs.twimg.com/profile_images/1801339115935268864/myUfQhBo_400x400.jpg",
             aspectRatio: "1:1",
         },
-        input: {
-            text: "Tell me a story",
-        },
-        postUrl: `${url}/api/frame`,
     });
 
     return {
-        title: "zizzamia.xyz",
-        description: "LFG",
+        title: "Comet",
+        description: "Text co-creation platform",
         openGraph: {
-            title: "zizzamia.xyz",
-            description: "LFG",
-            images: [`${url}/park-1.png`],
+            title: "Comet",
+            description: "Text co-creation platform",
+            images: [
+                "https://pbs.twimg.com/profile_images/1801339115935268864/myUfQhBo_400x400.jpg",
+            ],
         },
         other: {
             ...frameMetadata,
